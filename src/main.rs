@@ -18,21 +18,34 @@ fn main(){
 
     println!("The secret number : {}", secret_number);
 
-    println!("Please input your guess.");
+    loop {
+        println!("Please input your guess.");
 
-    let mut guess = String::new();
-
-    io::stdin().read_line(&mut guess)
-        .expect("Failed to red line");
-
-    println!("Youe guessed: {}", guess);
-
-    // 숫자를 비교한다.
-    match guess.cmp(&secret_number){
-        Ordering::Less  => println!("Too small!"),
-        Ordering::Equal => println!("You win!"),
-        Ordering::Greater   => println!("Too big!"),
+        let mut guess = String::new();
+    
+        io::stdin().read_line(&mut guess)
+            .expect("Failed to red line");
+    
+        let guess: u32 = match guess.trim().parse(){
+            Ok(num) => num,
+            Err(_)  => continue,
+        };
+            // .expect("Please type a number!");
+    
+        println!("Youe guessed: {}", guess);
+    
+        // 숫자를 비교한다.
+        match guess.cmp(&secret_number){
+            Ordering::Less  => println!("Too small!"),
+            Ordering::Greater   => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win!");
+                break;
+            },
+        }
     }
+
+
 }
 
 
